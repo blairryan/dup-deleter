@@ -10,5 +10,13 @@ class FileHasher(object):
         """
             Read the given file and generate its hash value using md5 hashing algorithm
         """
-        pass
+        file_hash = hashlib.md5()
+        with open(self.filename, "rb") as open_file:
+            buf = open_file.read(FileHasher.MAX_BLOCK_SIZE)
+            while len(buf) > 0:
+                file_hash.update(buf)
+                buf = open_file.read(FileHasher.MAX_BLOCK_SIZE)
+
+        return file_hash.hexdigest()
+
 
