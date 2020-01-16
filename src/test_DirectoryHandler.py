@@ -26,11 +26,12 @@ class TestDirectoryHandler(unittest.TestCase):
 
         self.assertFalse(dir_exists)
 
-    @mock.patch("DirectoryHandler.get_directory", return_value=os.getcwd())
     def test_directory_exists(self):
         """
             Ensure directory_exists returns True when the directory exists.
         """
+        self.directory_handler.get_directory = mock.MagicMock()
+        self.directory_handler.get_directory.return_value = os.getcwd()
         dir_exists = self.directory_handler.directory_exists()
 
         self.assertTrue(dir_exists)
