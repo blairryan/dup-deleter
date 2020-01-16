@@ -30,5 +30,5 @@ class TestFileHasher(unittest.TestCase):
         """
             Ensure the return type of generate_hash matches the return type for the hashlib hexdigest method.
         """
-        val = self.hash_instance.generate_hash()
-        assert isinstance(val, str)
+        hash_value = self.hash_instance.generate_hash()
+        assert isinstance(hash_value, str)

@@ -6,7 +6,7 @@ class FileHasher(object):
     def __init__(self, new_filename):
         self.filename = new_filename
 
-    def generate_hash(self):
+    def generate_hash(self) -> str:
         """
             Read the given file and generate its hash value using md5 hashing algorithm
         """
