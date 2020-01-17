@@ -18,12 +18,12 @@ class TestFileHasher(unittest.TestCase):
 
     @mock.patch("builtins.open", new_callable=mock.mock_open())
     @mock.patch("hashlib._hashlib.HASH")
-    def test_open_called(self, m_hash, m):
+    def test_open_called(self, mock_hash, mock_open):
         """
             Ensure the builtin open method is called on the given file.
         """
         self.hash_instance.generate_hash()
-        m.assert_called_with("file", "rb")
+        mock_open.assert_called_with("file", "rb")
 
     @mock.patch("builtins.open", new_callable=mock.mock_open(), return_value="fake data")
     def test_file_hashed(self, mock_open):
