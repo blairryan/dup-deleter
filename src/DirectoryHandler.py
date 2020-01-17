@@ -24,7 +24,8 @@ class DirectoryHandler(object):
         """
             Create a new directory to place duplicate files into.
         """
-        pass
+        dups_path = os.path.join(self.get_directory(), "duplicates")
+        if not self.directory_exists(dups_path): os.mkdir(dups_path)
 
     def place_files_in_duplicates_directory(self, files: Set[str]) -> None:
         """
