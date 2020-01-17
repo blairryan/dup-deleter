@@ -69,6 +69,15 @@ class TestDirectoryHandler(unittest.TestCase):
 
         self.assertEqual(requested_files, set())
         
+# DirectoryHandler.create_duplicates_directory test cases
 
-
-    
+    @mock.patch("os.mkdir")
+    def test_create_dups_dir_correct(self, mock_mkdir):
+        """
+            Ensure the duplicate directory is successfully
+            created.
+        """
+        dups_path = os.path.join(self.directory_handler.get_directory(), "duplicates")
+        self.directory_handler.create_duplicates_directory()
+        
+        mock_mkdir.assert_called_once_with(dups_path)
