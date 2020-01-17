@@ -47,17 +47,28 @@ class TestDirectoryHandler(unittest.TestCase):
 
         assert isinstance(requested_files, set)
 
-    def test_get_files_correct(self):
+    @mock.patch("os.path.isfile", return_value=True)
+    def test_get_files_correct(self, mock_isfile):
         """
             Ensure get_files returns the correct files for given directory.
         """
         mock_files = ["file1", "file2"]
-        os.walk = mock.MagicMock()
-        os.walk.return_value = ("root", [], mock_files)
+        os.listdir = mock.MagicMock(return_value=mock_files)
+        self.directory_handler.directory_exists = mock.MagicMock(return_value=True)
         requested_files = self.directory_handler.get_files()
 
         self.assertEqual(requested_files, set(mock_files))
 
+    def test_get_files_dir_not_exists(self):
+        """
+            Ensure get_files returns an empty set when the directory
+            does not exist.
+        """
+        self.directory_handler.directory_exists = mock.MagicMock(return_value=False)
+        requested_files = self.directory_handler.get_files()
+
+        self.assertEqual(requested_files, set())
+        
 
 
     
