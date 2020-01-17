@@ -6,11 +6,12 @@ class DirectoryHandler(object):
     def __init__(self, directory_path):
         self.directory = directory_path
 
-    def directory_exists(self) -> bool:
+    def directory_exists(self, directory: str = None) -> bool:
         """
-            Check if the given directory exists in the file system.
+            Check if the given directory exists in the file system, if no directory
+            given, use self.direcotory.
         """
-        return os.access(self.get_directory(), os.R_OK)
+        return os.access(directory if directory else self.get_directory(), os.R_OK)
 
     def get_files(self) -> Set[str]:
         """
@@ -24,14 +25,14 @@ class DirectoryHandler(object):
         """
         pass
 
-    def place_files_in_duplicates_directory(self, files:Set[str]) -> None:
+    def place_files_in_duplicates_directory(self, files: Set[str]) -> None:
         """
             Move duplicate files to the duplicate directory.
         """
         pass
     
     @staticmethod
-    def remove_files(files:Set[str]) -> None:
+    def remove_files(files: Set[str]) -> None:
         """
             Remove the specified files from the file system.
         """
