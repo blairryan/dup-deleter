@@ -4,6 +4,7 @@ from unittest import mock
 from DirectoryHandler import DirectoryHandler
 import os
 
+
 class TestDirectoryHandler(unittest.TestCase):
     def setUp(self):
         self.directory_handler = DirectoryHandler("fake dir path")
@@ -36,7 +37,26 @@ class TestDirectoryHandler(unittest.TestCase):
 
         self.assertTrue(dir_exists)
 
+# DirectoryHandler.get_files test cases
 
+    def test_get_files_returns_set(self):
+        """
+            Ensure return type of test_files is a set. 
+        """
+        requested_files = self.directory_handler.get_files()
+
+        assert isinstance(requested_files, set)
+
+    def test_get_files_correct(self):
+        """
+            Ensure get_files returns the correct files for given directory.
+        """
+        mock_files = ["file1", "file2"]
+        os.walk = mock.MagicMock()
+        os.walk.return_value = ("root", [], mock_files)
+        requested_files = self.directory_handler.get_files()
+
+        self.assertEqual(requested_files, set(mock_files))
 
 
 
