@@ -17,7 +17,8 @@ class DirectoryHandler(object):
         """
             Get the files inside of the specified directory.
         """
-        pass
+        return ({f for f in os.listdir(self.get_directory())
+                    if os.path.isfile(os.path.join(self.get_directory(), f))} if self.directory_exists(self.get_directory()) else set())
 
     def create_duplicates_directory(self) -> None:
         """
