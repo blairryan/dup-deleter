@@ -1,6 +1,7 @@
 import unittest
 from test_FileHasher import TestFileHasher
 from test_DirectoryHandler import TestDirectoryHandler
+from test_DuplicateTracker import TestDuplicateTracker
 
 
 def test_suite():
@@ -10,6 +11,7 @@ def test_suite():
     test_suite = unittest.TestSuite()
     test_suite.addTest(unittest.makeSuite(TestFileHasher))
     test_suite.addTest(unittest.makeSuite(TestDirectoryHandler))
+    test_suite.addTest(unittest.makeSuite(TestDuplicateTracker))
     return test_suite
 
 if __name__ == "__main__":
