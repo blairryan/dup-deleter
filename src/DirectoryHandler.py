@@ -36,12 +36,13 @@ class DirectoryHandler(object):
             dst = os.path.join(self.get_directory(), "duplicates", f)
             os.replace(src, dst)
     
-    @staticmethod
-    def remove_files(files: Set[str]) -> None:
+    def remove_files(self, files: Set[str]) -> None:
         """
             Remove the specified files from the file system.
         """
-        pass
+        for f in files:
+            src = os.path.join(self.get_directory(), f)
+            os.remove(src)
 
     def get_directory(self):
         """
