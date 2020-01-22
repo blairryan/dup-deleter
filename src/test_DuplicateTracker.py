@@ -37,4 +37,24 @@ class TestDuplicateTracker(unittest.TestCase):
 
         assert self.duplicate_tracker.duplicate_files == files
         
+# DuplicateTracker.is_duplicate tests
+    
+    def test_is_duplicate_true(self):
+        """
+            Ensure is_duplicate returns True when the given 
+            file is a duplicate.
+        """
+        self.duplicate_tracker.all_files = {"file1": "hash1", "file2": "hash2"}
+        is_dup = self.duplicate_tracker.is_duplicate("hash2")
+        self.duplicate_tracker.all_files = dict()  # clean up
+        
+        self.assertTrue(is_dup)
 
+    def test_is_duplicate_false(self):
+        """
+            Ensure is_duplicate returns False when the given 
+            file is not yet considered a duplicate.
+        """
+        is_dup = self.duplicate_tracker.is_duplicate("fake_hash")
+
+        self.assertFalse(is_dup)
