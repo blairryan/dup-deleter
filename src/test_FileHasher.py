@@ -7,14 +7,13 @@ class TestFileHasher(unittest.TestCase):
     def setUp(self):
         self.hash_instance = FileHasher("file")
 
-    def test_generate_hash_called(self):
+    @mock.patch.object(FileHasher, "generate_hash")
+    def test_generate_hash_called(self, mock_gen_hash):
         """
             Ensure the generate_hash method is called.
         """
-        self.hash_instance.generate_hash = mock.MagicMock()
-        
         self.hash_instance.generate_hash()
-        self.hash_instance.generate_hash.assert_called_once()
+        mock_gen_hash.assert_called_once()
 
     @mock.patch("builtins.open", new_callable=mock.mock_open())
     @mock.patch("hashlib._hashlib.HASH")

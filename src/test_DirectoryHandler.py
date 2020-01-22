@@ -27,12 +27,11 @@ class TestDirectoryHandler(unittest.TestCase):
 
         self.assertFalse(dir_exists)
 
-    def test_directory_exists(self):
+    @mock.patch.object(DirectoryHandler, "get_directory", return_value=os.getcwd())
+    def test_directory_exists(self, mock_get_dir):
         """
             Ensure directory_exists returns True when the directory exists.
         """
-        self.directory_handler.get_directory = mock.MagicMock()
-        self.directory_handler.get_directory.return_value = os.getcwd()
         dir_exists = self.directory_handler.directory_exists()
 
         self.assertTrue(dir_exists)
@@ -48,23 +47,23 @@ class TestDirectoryHandler(unittest.TestCase):
         assert isinstance(requested_files, set)
 
     @mock.patch("os.path.isfile", return_value=True)
-    def test_get_files_correct(self, mock_isfile):
+    @mock.patch("os.listdir", return_value=["file1", "file2"])
+    @mock.patch.object(DirectoryHandler, "directory_exists", return_value=True)
+    def test_get_files_correct(self, mock_dir_exists, mock_listdir, mock_isfile):
         """
             Ensure get_files returns the correct files for given directory.
         """
-        mock_files = ["file1", "file2"]
-        os.listdir = mock.MagicMock(return_value=mock_files)
-        self.directory_handler.directory_exists = mock.MagicMock(return_value=True)
+        mock_files = mock_listdir.return_value
         requested_files = self.directory_handler.get_files()
 
         self.assertEqual(requested_files, set(mock_files))
 
-    def test_get_files_dir_not_exists(self):
+    @mock.patch.object(DirectoryHandler, "directory_exists", return_value=False)
+    def test_get_files_dir_not_exists(self, mock_dir_exists):
         """
             Ensure get_files returns an empty set when the directory
             does not exist.
         """
-        self.directory_handler.directory_exists = mock.MagicMock(return_value=False)
         requested_files = self.directory_handler.get_files()
 
         self.assertEqual(requested_files, set())
