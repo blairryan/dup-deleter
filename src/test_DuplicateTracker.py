@@ -58,3 +58,24 @@ class TestDuplicateTracker(unittest.TestCase):
         is_dup = self.duplicate_tracker.is_duplicate("fake_hash")
 
         self.assertFalse(is_dup)
+
+# DuplicateTracker.get_duplicates tests
+
+    def test_get_duplicates_return_type(self):
+        """
+            Ensure get_duplicates returns an object of type set.
+        """
+        dups = self.duplicate_tracker.get_duplicates()
+
+        self.assertIsInstance(dups, set)
+
+    def test_get_duplicates_returns_correct_files(self):
+        """
+            Ensure get_duplicates returns the correct duplicate files.
+        """
+        self.duplicate_tracker.duplicate_files.add("file1")
+        self.duplicate_tracker.duplicate_files.add("file2")
+        dups = self.duplicate_tracker.get_duplicates()
+        self.duplicate_tracker.duplicate_files = set()  # clean up
+        
+        self.assertEqual(dups, {"file1", "file2"})
