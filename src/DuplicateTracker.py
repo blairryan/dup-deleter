@@ -24,7 +24,7 @@ class DuplicateTracker(object):
         """
             Return True if the given file is considered a duplicate.
         """
-        pass
+        return hash_value in self.all_files.values()
 
     def get_duplicates(self) -> Set[str]:
         """
