@@ -31,7 +31,10 @@ class DirectoryHandler(object):
         """
             Move duplicate files to the duplicate directory.
         """
-        pass
+        for f in files:
+            src = os.path.join(self.get_directory(), f)
+            dst = os.path.join(self.get_directory(), "duplicates", f)
+            os.replace(src, dst)
     
     @staticmethod
     def remove_files(files: Set[str]) -> None:
