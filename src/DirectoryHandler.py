@@ -9,7 +9,7 @@ class DirectoryHandler(object):
     def directory_exists(self, directory: str = None) -> bool:
         """
             Check if the given directory exists in the file system, if no directory
-            given, use self.direcotory.
+            given, use self.directory.
         """
         return os.access(directory if directory else self.get_directory(), os.R_OK)
 
