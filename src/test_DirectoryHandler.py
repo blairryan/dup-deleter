@@ -107,3 +107,30 @@ class TestDirectoryHandler(unittest.TestCase):
         self.directory_handler.place_files_in_duplicates_directory({dup_file})
 
         mock_replace.assert_called_once_with(dup_file_dir, new_dir)
+
+# DirectoryHandler.remove_files test cases
+
+    @mock.patch("os.remove")
+    def test_remove_files_not_called(self, mock_remove):
+        """
+            Ensure os.remove is not called when there are no duplicate files
+            given.
+        """
+        dup_files = {}
+        self.directory_handler.remove_files(dup_files)
+
+        mock_remove.assert_not_called()
+
+    @mock.patch("os.remove")
+    def test_remove_files_removes_correct(self, mock_remove):
+        """
+            Ensure os.remove is called with the correct file paths.
+        """
+        dup_files = {"file1", "file2"}
+        calls = [mock.call(os.path.join(self.directory_handler.get_directory(), f)) for f in dup_files]
+        self.directory_handler.remove_files(dup_files)
+
+        mock_remove.assert_has_calls(calls, any_order=True)
+        
+
+
