@@ -30,4 +30,4 @@ class DuplicateTracker(object):
         """
             Return the list of duplicate files.
         """
-        pass
+        return self.duplicate_files
