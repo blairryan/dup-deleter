@@ -81,3 +81,29 @@ class TestDirectoryHandler(unittest.TestCase):
         self.directory_handler.create_duplicates_directory()
         
         mock_mkdir.assert_called_once_with(dups_path)
+
+
+# DirectoryHandler.place_files_in_duplicates_directory test cases
+
+    @mock.patch("os.replace")
+    def test_place_files_not_called_when_no_duplicates(self, mock_patch):
+        """
+            Ensure os.replace is not called when there are no duplicate files.
+        """
+        dup_files = {}
+        self.directory_handler.place_files_in_duplicates_directory(dup_files)
+
+        mock_patch.assert_not_called()
+
+
+    @mock.patch("os.replace")
+    def test_place_files_calls_replace(self, mock_replace):
+        """
+            Ensure os.replace is called with the correct file paths.
+        """
+        dup_file = "file1.txt"
+        dup_file_dir = os.path.join(self.directory_handler.get_directory(), dup_file)
+        new_dir = os.path.join(self.directory_handler.get_directory(),"duplicates", dup_file)
+        self.directory_handler.place_files_in_duplicates_directory({dup_file})
+
+        mock_replace.assert_called_once_with(dup_file_dir, new_dir)
